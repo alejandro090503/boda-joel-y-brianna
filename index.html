@@ -9,14 +9,14 @@
 <meta property="og:url" content="https://boda-joel-y-brianna.vercel.app/">
 <meta property="og:title" content="Joel &amp; Brianna · IX · I · MMXXVII">
 <meta property="og:description" content="Joel y Brianna se casan. Austin, Texas — 9 Enero 2027.">
-<meta property="og:image" content="https://boda-joel-y-brianna.vercel.app/og-image.jpg?v=1">
+<meta property="og:image" content="https://boda-joel-y-brianna.vercel.app/og-image.jpg?v=2">
 <meta property="og:image:alt" content="Invitación digital de boda Joel y Brianna">
 <meta property="og:locale" content="es_MX">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://boda-joel-y-brianna.vercel.app/">
 <meta name="twitter:title" content="Joel &amp; Brianna · 9 Enero 2027">
 <meta name="twitter:description" content="Acompáñanos a celebrar nuestra boda en Austin, Texas.">
-<meta name="twitter:image" content="https://boda-joel-y-brianna.vercel.app/og-image.jpg?v=1">
+<meta name="twitter:image" content="https://boda-joel-y-brianna.vercel.app/og-image.jpg?v=2">
 <script>if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -478,6 +478,21 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',ser
 .dc-col svg{animation:dcFloat 4.2s ease-in-out infinite;will-change:transform}
 .dc-col:nth-child(2) svg{animation-delay:-2.1s}
 @keyframes dcFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
+
+/* ── PADRES: 2 tarjetas simétricas ── */
+.fam-padres{max-width:380px;margin:28px auto 0;gap:12px}
+.fam-padres .fam-card{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 10px}
+.fam-padres .fam-role-lbl{font-size:14px;min-height:2.6em;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.fam-padres .fam-name{font-size:clamp(21px,6vw,26px);min-height:2.6em;display:flex;align-items:center;justify-content:center}
+.fam-padres .fam-and{width:70%}
+
+/* ── HERO: textos arriba/abajo para no tapar rostros ── */
+.hero-content{position:absolute;top:max(44px,6vh);left:0;right:0}
+.hero-bride,.hero-groom{font-size:clamp(54px,15vw,80px)}
+.hero-amp{font-size:30px;margin:0}
+.hero-tag{margin-bottom:10px}
+.hero-date{position:absolute;left:0;right:0;bottom:96px;margin:0;text-align:center;z-index:2}
+.hero-veil{background:linear-gradient(to bottom,rgba(51,35,30,.72) 0%,rgba(51,35,30,.38) 34%,rgba(51,35,30,.08) 50%,rgba(51,35,30,.12) 70%,rgba(51,35,30,.7) 100%)}
 /* ── ACABADO METÁLICO (paleta cliente) ── */
 .heading,.heading-sm{background:var(--metal-rose);background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;padding:0 .12em;animation:metalSweep 7s ease-in-out infinite}
 #album .heading-sm{background:var(--metal-gold);background-size:220% auto;-webkit-background-clip:text;background-clip:text}
@@ -554,8 +569,8 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',ser
       <span class="hero-bride rv">Joel</span>
       <span class="hero-amp rv">&amp;</span>
       <span class="hero-groom rv">Brianna</span>
-      <span class="hero-date rv">Sábado · 9 de Enero</span>
     </div>
+    <span class="hero-date rv">Sábado · 9 de Enero</span>
     <div class="scroll-hint" id="scrollHint">
       <div class="scroll-hint-line"></div>
       <span class="scroll-hint-txt">Desliza</span>
@@ -623,17 +638,21 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',ser
       </svg>
     </div>
     <div class="orn" style="margin-top:8px"><div class="orn-line"></div><div class="orn-diamond-sm"></div><div class="orn-diamond"></div><div class="orn-diamond-sm"></div><div class="orn-line"></div></div>
-    <div class="fam-card rv" style="max-width:320px;margin:28px auto 0">
-      <span class="fam-role-lbl">Padres del Novio</span>
-      <span class="fam-name">Ignacio<br>Cabañas Marín</span>
-      <div class="fam-and"><div class="fam-and-line"></div><span class="fam-and-txt">&amp;</span><div class="fam-and-line"></div></div>
-      <span class="fam-name">Teresa<br>García Cobos</span>
-      <div style="border-top:1px solid var(--border);margin:24px -14px 22px"></div>
-      <span class="fam-role-lbl">Padres de la Novia</span>
-      <span class="fam-name">Adrian<br>Arriazola</span>
-      <div class="fam-and"><div class="fam-and-line"></div><span class="fam-and-txt">&amp;</span><div class="fam-and-line"></div></div>
-      <span class="fam-name">Myriam<br>Arriazola</span>
-      <div style="border-top:1px solid var(--border);margin:24px -14px 22px"></div>
+    <div class="fam-grid fam-padres rv">
+      <div class="fam-card">
+        <span class="fam-role-lbl">Padres del Novio</span>
+        <span class="fam-name">Ignacio<br>Cabañas Marín</span>
+        <div class="fam-and"><div class="fam-and-line"></div><span class="fam-and-txt">&amp;</span><div class="fam-and-line"></div></div>
+        <span class="fam-name">Teresa<br>García Cobos</span>
+      </div>
+      <div class="fam-card">
+        <span class="fam-role-lbl">Padres de la Novia</span>
+        <span class="fam-name">Adrian<br>Arriazola</span>
+        <div class="fam-and"><div class="fam-and-line"></div><span class="fam-and-txt">&amp;</span><div class="fam-and-line"></div></div>
+        <span class="fam-name">Myriam<br>Arriazola</span>
+      </div>
+    </div>
+    <div class="fam-card rv" style="max-width:320px;margin:14px auto 0">
       <div class="pad-rot" id="padRot">
         <div class="pad-slide is-on">
           <span class="fam-role-lbl">Padrinos</span>
