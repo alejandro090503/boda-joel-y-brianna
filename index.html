@@ -171,6 +171,30 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',ser
 .dc-avoid-lbl{font-family:'Jost',sans-serif;font-weight:500;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);text-align:center;display:block;margin:20px 0 12px}
 
 
+/* ── LLUVIA DE SOBRES ── */
+.env-rain{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.env-rain-item{position:absolute;top:-46px;will-change:transform;opacity:0}
+#regalos .env-stage{position:relative;z-index:1}
+.env-interactive{display:flex;flex-direction:column;align-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent;outline:none;border:none;background:none;padding:0;margin:26px auto 0;opacity:0}
+.env-body{perspective:700px;position:relative;width:min(258px,74vw);aspect-ratio:260/200;filter:drop-shadow(0 10px 26px rgba(51,35,30,.2))}
+.env-body svg.env-svg{width:100%;height:100%;display:block}
+.env-flap-wrap{position:absolute;top:23%;left:6.9%;width:86.2%;height:43%;transform-origin:top center;transform-style:preserve-3d;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .65s cubic-bezier(.4,0,.2,1);pointer-events:none;z-index:2}
+.env-interactive.open .env-flap-wrap{transform:rotateX(-175deg)}
+.env-seal{position:absolute;top:52%;left:50%;width:23%;aspect-ratio:1;transform:translate(-50%,-50%);z-index:3;transition:opacity .35s ease,transform .5s cubic-bezier(.4,0,.2,1);pointer-events:none}
+.env-interactive.open .env-seal{opacity:0;transform:translate(-50%,-50%) scale(.7)}
+.env-open-content{overflow:hidden;max-height:0;opacity:0;transition:max-height .55s .3s ease,opacity .4s .38s ease;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 16px;text-align:center;pointer-events:none}
+.env-interactive.open .env-open-content{max-height:300px;opacity:1;pointer-events:auto;margin-top:20px}
+.env-mailbox-icon{width:42px;height:42px;color:var(--gold);margin-top:6px}
+.env-title{font-family:'Parisienne',cursive;font-size:clamp(28px,8vw,34px);line-height:1.4;padding:.08em 0;background:var(--metal-gold);background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#B76E79;animation:metalSweep 7s ease-in-out infinite}
+.env-desc{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;font-style:italic;color:var(--text);opacity:.86;line-height:1.75;max-width:300px}
+.env-tap-hint{font-family:'Italiana',serif;font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-top:18px;opacity:0;transition:opacity .5s ease;position:relative;z-index:1}
+.env-tap-hint.show{opacity:.85;animation:envHintPulse 2.4s ease-in-out infinite}
+.env-interactive.open~.env-tap-hint{opacity:0!important;animation:none;pointer-events:none}
+@keyframes envHintPulse{0%,100%{opacity:.5}50%{opacity:.95}}
+.env-body.landed{animation:envBreathe 3.6s ease-in-out infinite}
+@keyframes envBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+@media(prefers-reduced-motion:reduce){.env-body.landed,.env-tap-hint.show{animation:none!important}}
+
 /* ── ÁLBUM ── */
 #album{background:linear-gradient(200deg,#5A3A35 0%,#8A4954 55%,#33231E 100%);overflow:hidden;position:relative}
 #album::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 92%,rgba(221,187,114,.10) 0%,transparent 60%)}
@@ -443,6 +467,17 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',ser
 .stagger-child{visibility:hidden}
 
 
+
+/* ── PADRINOS: rotación suave uno por uno ── */
+.pad-rot{display:grid}
+.pad-slide{grid-area:1/1;opacity:0;transform:translateY(10px);filter:blur(3px);transition:opacity 1.2s ease,transform 1.2s ease,filter 1.2s ease;pointer-events:none}
+.pad-slide.is-on{opacity:1;transform:none;filter:none;pointer-events:auto}
+
+/* ── DRESS CODE: dibujos levitando dentro de su marco ── */
+.dc-col{overflow:hidden}
+.dc-col svg{animation:dcFloat 4.2s ease-in-out infinite;will-change:transform}
+.dc-col:nth-child(2) svg{animation-delay:-2.1s}
+@keyframes dcFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
 /* ── ACABADO METÁLICO (paleta cliente) ── */
 .heading,.heading-sm{background:var(--metal-rose);background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;padding:0 .12em;animation:metalSweep 7s ease-in-out infinite}
 #album .heading-sm{background:var(--metal-gold);background-size:220% auto;-webkit-background-clip:text;background-clip:text}
@@ -599,20 +634,26 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',ser
       <div class="fam-and"><div class="fam-and-line"></div><span class="fam-and-txt">&amp;</span><div class="fam-and-line"></div></div>
       <span class="fam-name">Myriam<br>Arriazola</span>
       <div style="border-top:1px solid var(--border);margin:24px -14px 22px"></div>
-      <span class="fam-role-lbl">Padrinos</span>
+      <div class="pad-rot" id="padRot">
+        <div class="pad-slide is-on">
+          <span class="fam-role-lbl">Padrinos</span>
       <span class="fam-name">Waldo<br>Bermea</span>
       <div class="fam-and"><div class="fam-and-line"></div><span class="fam-and-txt">&amp;</span><div class="fam-and-line"></div></div>
       <span class="fam-name">Adriana<br>Arriazola de Lazo</span>
-      <div style="border-top:1px solid var(--border);margin:24px -14px 22px"></div>
-      <span class="fam-role-lbl">Padrinos de Velación y Anillos</span>
+        </div>
+        <div class="pad-slide">
+          <span class="fam-role-lbl">Padrinos de Velación y Anillos</span>
       <span class="fam-name">Erick<br>Arriazola</span>
       <div class="fam-and"><div class="fam-and-line"></div><span class="fam-and-txt">&amp;</span><div class="fam-and-line"></div></div>
       <span class="fam-name">Norma<br>Sánchez</span>
-      <div style="border-top:1px solid var(--border);margin:24px -14px 22px"></div>
-      <span class="fam-role-lbl">Padrinos de Arras</span>
+        </div>
+        <div class="pad-slide">
+          <span class="fam-role-lbl">Padrinos de Arras</span>
       <span class="fam-name">Luis Alberto<br>García Cobos</span>
       <div class="fam-and"><div class="fam-and-line"></div><span class="fam-and-txt">&amp;</span><div class="fam-and-line"></div></div>
       <span class="fam-name">Vanessa<br>Balderas Bernal</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -739,24 +780,55 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',ser
     </div>
   </section>
 
-  <!-- MESA DE REGALOS -->
-  <section class="sec rv" style="text-align:center">
-    <span class="eyebrow">Con Cariño</span>
-    <h2 class="heading-sm">Mesa de Regalos</h2>
-    <div class="orn" style="margin-top:16px"><div class="orn-line"></div><div class="orn-diamond-sm"></div><div class="orn-diamond"></div><div class="orn-diamond-sm"></div><div class="orn-line"></div></div>
-    <div class="card rv" style="max-width:380px;margin:24px auto 0;padding:34px 28px">
-      <svg viewBox="0 0 60 52" width="52" height="46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:block;margin:0 auto 18px">
-        <rect x="4" y="20" width="52" height="28" rx="3" fill="rgba(153,101,21,.08)" stroke="#996515" stroke-width="1.2"/>
-        <rect x="0" y="14" width="60" height="10" rx="3" fill="rgba(153,101,21,.12)" stroke="#996515" stroke-width="1.2"/>
-        <path d="M30 14 L30 48" stroke="#996515" stroke-width="1.2"/>
-        <path d="M30 14 Q20 8 14 2" stroke="#996515" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-        <path d="M30 14 Q40 8 46 2" stroke="#996515" stroke-width="1.2" stroke-linecap="round" fill="none"/>
-        <circle cx="30" cy="14" r="2.5" fill="#996515" opacity=".6"/>
-      </svg>
-      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:18px;color:var(--text);line-height:1.75;margin:0">
-        El mejor regalo es contar con su presencia en este día tan importante para nosotros.<br><br>
-        Si desean tener un detalle con nosotros, tendremos <strong style="font-weight:700;color:var(--accent-deep)">Lluvia de Sobres</strong> el día del evento.
-      </p>
+  <!-- LLUVIA DE SOBRES -->
+  <section id="regalos" class="sec rv" style="text-align:center">
+    <div class="env-rain" id="envRain" aria-hidden="true"></div>
+    <div class="env-stage">
+      <span class="eyebrow">Celebra con Nosotros</span>
+      <h2 class="heading-sm">Lluvia de Sobres</h2>
+      <div class="orn" style="margin-top:14px;margin-bottom:0"><div class="orn-line"></div><div class="orn-diamond-sm"></div><div class="orn-diamond"></div><div class="orn-diamond-sm"></div><div class="orn-line"></div></div>
+
+      <button class="env-interactive" id="envGift" type="button" aria-label="Sobre — toca para abrir" aria-expanded="false">
+        <div class="env-body" id="envGiftBody">
+          <svg class="env-svg" viewBox="0 0 260 200" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="envPaper" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#FBF3F1"/>
+              </linearGradient>
+            </defs>
+            <rect x="18" y="52" width="224" height="132" rx="8" fill="url(#envPaper)" stroke="rgba(183,110,121,.45)" stroke-width="1.4"/>
+            <path d="M18 184 L130 110 L242 184" stroke="rgba(183,110,121,.28)" stroke-width="1" fill="none"/>
+          </svg>
+          <div class="env-flap-wrap" aria-hidden="true">
+            <svg viewBox="0 0 224 86" preserveAspectRatio="none" style="width:100%;height:100%;display:block">
+              <defs>
+                <linearGradient id="envFlap" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#FBF3F1"/><stop offset="100%" stop-color="#FFFDFB"/>
+                </linearGradient>
+              </defs>
+              <path d="M0 0 L112 86 L224 0 Z" fill="url(#envFlap)" stroke="rgba(183,110,121,.45)" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <svg class="env-seal" viewBox="0 0 60 60" aria-hidden="true">
+            <circle cx="30" cy="30" r="28" fill="#B76E79"/>
+            <circle cx="30" cy="30" r="28" fill="none" stroke="#7E3F4A" stroke-width="2" opacity=".55"/>
+            <circle cx="30" cy="30" r="21.5" fill="none" stroke="#F3E3C0" stroke-width="1.1" opacity=".9"/>
+            <text x="30" y="37" text-anchor="middle" font-family="'Parisienne', cursive" font-size="24" fill="#F3E3C0">J&amp;B</text>
+          </svg>
+        </div>
+        <div class="env-open-content" aria-live="polite">
+          <svg class="env-mailbox-icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="8" y="22" width="36" height="24" rx="5"/>
+            <path d="M8 30 Q26 38 44 30"/>
+            <rect x="18" y="8" width="16" height="16" rx="2"/>
+            <path d="M18 8 Q26 3 34 8"/>
+            <rect x="20" y="28" width="12" height="2.5" rx="1.25" fill="currentColor" stroke="none" opacity=".4"/>
+          </svg>
+          <p class="env-title">Tu Presencia es Nuestro Regalo</p>
+          <p class="env-desc">El día del evento habrá una urna donde podrás depositar tu sobre con mucho cariño.</p>
+        </div>
+      </button>
+      <p class="env-tap-hint" id="envGiftHint">Toca para abrir</p>
     </div>
   </section>
 
@@ -806,12 +878,12 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',ser
       <div class="qr-outer">
         <div class="qr-c tl"></div><div class="qr-c tr"></div>
         <div class="qr-c bl"></div><div class="qr-c br"></div>
-        <!-- PENDIENTE: QR del álbum compartido de Joel y Brianna --><div style="width:140px;height:140px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:17px;color:#DDBB72;text-align:center">Próximamente</div>
+        <img src="qr-album.png" alt="Código QR del álbum compartido" style="display:block;width:150px;height:150px;border-radius:3px;background:#fff">
       </div>
-      <span class="qr-scan-lbl">Escanea para subir tus fotos</span>
+      <span class="qr-scan-lbl" style="color:rgba(243,227,192,.85)">Escanea para subir tus fotos</span>
     </div>
 
-    <a href="#" id="albumLink" target="_blank" rel="noopener" class="album-btn rv" style="margin-top:22px">
+    <a href="#album" id="albumLink" class="album-btn rv" style="margin-top:22px" onclick="event.preventDefault()">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="flex-shrink:0"><path d="M19 7v2.99s-1.99.01-2 0V7h-3s.01-1.99 0-2h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8h-3zM5 19l3-4 2 3 3-4 4 5H5z"/></svg>
       Subir Fotos
     </a>
@@ -1248,6 +1320,87 @@ function initMain(){
     });
   })();
 
+  /* Lluvia de sobres — cae hasta que la sección se centra, ahí aterriza uno */
+  (function(){
+    var sec=document.getElementById('regalos'),rain=document.getElementById('envRain'),
+        btn=document.getElementById('envGift'),body=document.getElementById('envGiftBody'),
+        hint=document.getElementById('envGiftHint');
+    if(!sec||!rain||!btn)return;
+    var raining=true,landed=false,spawnCall=null,alive=0;
+    var MAX_ALIVE=18;
+
+    function makeEnvelope(){
+      if(alive>=MAX_ALIVE)return;
+      alive++;
+      var el=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      el.setAttribute('viewBox','0 0 34 24');
+      el.setAttribute('class','env-rain-item');
+      var w=16+Math.random()*16;
+      el.style.width=w+'px';el.style.height=(w*24/34)+'px';
+      el.style.left=(Math.random()*100)+'%';
+      el.innerHTML='<rect x="1" y="1" width="32" height="22" rx="2.5" fill="#FBF3F1" stroke="#B76E79" stroke-width="1.2"/>'+
+                   '<path d="M1 1 L17 13 L33 1" fill="none" stroke="#B76E79" stroke-width="1.2" stroke-linejoin="round"/>';
+      rain.appendChild(el);
+      var H=sec.offsetHeight+80,dur=5+Math.random()*4;
+      function kill(){if(el.parentNode){el.remove();alive--;}}
+      gsap.timeline({onComplete:kill})
+        .fromTo(el,{y:-46,x:0,rotation:(Math.random()-.5)*50,opacity:0},
+                   {y:H,x:(Math.random()-.5)*70,rotation:(Math.random()-.5)*160,
+                    duration:dur,ease:'none'},0)
+        .fromTo(el,{opacity:0},{opacity:.75,duration:dur*.18,ease:'power1.out'},0)
+        .to(el,{opacity:0,duration:dur*.25,ease:'power1.in'},dur*.75);
+    }
+
+    /* Spawn por el ticker de GSAP (no setInterval): se pausa junto con la
+       animación si la pestaña pasa a segundo plano, evitando acumulación. */
+    function scheduleSpawn(){
+      spawnCall=gsap.delayedCall(.52,function(){
+        if(!raining)return;
+        makeEnvelope();
+        scheduleSpawn();
+      });
+    }
+    function startRain(){
+      for(var i=0;i<7;i++)gsap.delayedCall(i*.26,makeEnvelope);
+      scheduleSpawn();
+    }
+    function stopRain(){
+      raining=false;
+      if(spawnCall)spawnCall.kill();
+      gsap.to(rain,{opacity:0,duration:1.1,ease:'power2.out',
+        onComplete:function(){rain.innerHTML='';alive=0;}});
+    }
+
+    function land(){
+      if(landed)return;landed=true;
+      stopRain();
+      /* Un sobre se detiene: cae desde arriba y se asienta con rebote */
+      gsap.fromTo(btn,
+        {opacity:0,y:-150,rotation:-12,scale:.82},
+        {opacity:1,y:0,rotation:0,scale:1,duration:1.15,ease:'back.out(1.5)',
+         onComplete:function(){
+           if(body)body.classList.add('landed');
+           if(hint)hint.classList.add('show');
+         }});
+    }
+
+    startRain();
+    /* Aterriza cuando la sección queda centrada. Se usa 55% en vez de 'center'
+       porque el reveal genérico desplaza las secciones aún no visibles 28px,
+       y con 'center center' exacto el umbral queda fuera de alcance. */
+    ScrollTrigger.create({trigger:sec,start:'center 55%',once:true,onEnter:land,onEnterBack:land});
+
+    function toggle(e){
+      if(e)e.preventDefault();
+      if(!landed)return;
+      var open=btn.classList.toggle('open');
+      btn.setAttribute('aria-expanded',open?'true':'false');
+      if(open&&body)body.classList.remove('landed');
+      ScrollTrigger.refresh();
+    }
+    btn.addEventListener('click',toggle);
+  })();
+
   /* ── GALERÍA SCROLL HINT ── */
   (function initGallery(){
     var ring = document.getElementById('wheel-ring');
@@ -1265,6 +1418,17 @@ function initMain(){
 
 }
 
+
+/* Padrinos — rotan uno por uno */
+(function(){
+  var sl=document.querySelectorAll('#padRot .pad-slide'),i=0;
+  if(sl.length<2)return;
+  setInterval(function(){
+    sl[i].classList.remove('is-on');
+    i=(i+1)%sl.length;
+    sl[i].classList.add('is-on');
+  },4200);
+})();
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
   initEnvelope();
