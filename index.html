@@ -567,6 +567,26 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',ser
   -webkit-mask-image:linear-gradient(to bottom,transparent 0,black 52px,black 100%);
   mask-image:linear-gradient(to bottom,transparent 0,black 52px,black 100%);
 }
+
+/* ELYSIUM I18N — selector de idioma */
+#langScreen{position:fixed;inset:0;z-index:9600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;padding:32px;
+  background:radial-gradient(ellipse 80% 60% at 50% 40%,#FFFFFF 0%,#FBF6F4 60%,#F4E8E6 100%);transition:opacity .7s ease}
+#langScreen.gone{opacity:0;pointer-events:none}
+.lang-mono{font-family:'Parisienne',cursive;font-size:clamp(60px,18vw,82px);line-height:1.3;padding:0 .3em 0 .45em;background:var(--metal-rose);background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:metalSweep 7s ease-in-out infinite}
+.lang-rule{width:140px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--silver),var(--gold),transparent)}
+.lang-name{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:20px;letter-spacing:.12em;color:var(--dark);text-align:center}
+.lang-ask{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);text-align:center;line-height:1.7}
+.lang-opts{display:flex;flex-direction:column;gap:16px;width:100%;max-width:290px}
+.lang-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 26px;min-height:58px;cursor:pointer;
+  font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;letter-spacing:.2em;text-transform:uppercase;color:#fff;
+  background:linear-gradient(135deg,#8A4954 0%,#B76E79 50%,#8A4954 100%);border:1px solid var(--gold-light);border-radius:50px;
+  box-shadow:0 8px 24px rgba(138,73,84,.28);transition:transform .22s ease,box-shadow .22s ease}
+.lang-btn:hover,.lang-btn:focus-visible{transform:translateY(-2px);box-shadow:0 14px 32px rgba(138,73,84,.38);outline:none}
+.lang-btn small{font-style:italic;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:none;opacity:.9}
+.lang-switch{position:fixed;top:14px;right:14px;z-index:1000;display:none;align-items:center;gap:6px;padding:9px 15px;min-height:40px;cursor:pointer;
+  font-family:'Cormorant Garamond',serif;font-weight:700;font-size:13px;letter-spacing:.14em;color:var(--dark);background:rgba(255,255,255,.88);
+  border:1px solid rgba(153,101,21,.5);border-radius:50px;box-shadow:0 4px 14px rgba(51,35,30,.14);backdrop-filter:blur(6px)}
+.lang-switch.show{display:flex}
 </style>
 </head>
 <body>
@@ -577,6 +597,21 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',ser
 </div>
 
 <div id="petals"></div>
+
+<div id="langScreen" role="dialog" aria-label="Elige tu idioma / Choose your language">
+  <div class="lang-mono">J&amp;B</div>
+  <div class="lang-rule"></div>
+  <div class="lang-name">Joel &amp; Brianna</div>
+  <div class="lang-ask">Elige tu idioma<br>Choose your language</div>
+  <div class="lang-opts">
+    <button class="lang-btn" type="button" data-lang="es">Español <small>· Spanish</small></button>
+    <button class="lang-btn" type="button" data-lang="en">English <small>· Inglés</small></button>
+  </div>
+</div>
+<button class="lang-switch" id="langSwitch" type="button" aria-label="Cambiar idioma / Switch language">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>
+  <span id="langSwitchTxt">EN</span>
+</button>
 
 <div id="envelope-screen">
   <img id="envImage" src="sobre.png" alt="Invitación de boda Joel y Brianna">
@@ -1054,6 +1089,48 @@ body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',ser
 <audio id="bgAudio" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
 <div id="env-flash"></div>
 
+<script>
+/* ── ELYSIUM I18N: el español vive en el HTML; el inglés se aplica por nodos de texto ── */
+window.ELY_I18N=(function(){
+  var EN={"Toca para abrir": "Tap to open", "Desliza": "Scroll", "Sábado · 9 de Enero": "Saturday · January 9", "Con la gracia de Dios": "By the grace of God", "te invitamos a": "invite you to", "nuestra boda": "our wedding", "Sábado, 9 de Enero de 2027": "Saturday, January 9, 2027", "«Por esto dejará el hombre a su padre y a su madre, y se unirá a su mujer, y los dos serán una sola carne; así que no son ya más dos, sino uno.»": "“For this cause shall a man leave his father and mother, and cleave to his wife; and they twain shall be one flesh: so then they are no more twain, but one flesh.”", "Marcos 10:7-8": "Mark 10:7-8", "Faltan": "Countdown", "Días": "Days", "Horas": "Hours", "Seg": "Sec", "Para el Gran Día": "Until the Big Day", "Con la bendición de": "With the blessing of", "Nuestras Familias": "Our Families", "Padres del Novio": "Parents of the Groom", "Padres de la Novia": "Parents of the Bride", "Padrinos de Lazo": "Lasso Sponsors", "Padrinos de Velación y Anillos": "Veil &amp; Ring Sponsors", "Padrinos de Arras": "Coin Sponsors", "Dónde Celebramos": "Where We Celebrate", "Ubicación": "Location", "· Ceremonia Religiosa": "· Religious Ceremony", "· Recepción": "· Reception", "Ceremonia · 2:00 p.m.": "Ceremony · 2:00 p.m.", "Recepción · 4:30 p.m.": "Reception · 4:30 p.m.", "Salón de Recepción": "Reception Hall", "Cómo llegar": "Get directions", "Guardar en Calendario": "Save to Calendar", "El Programa del Día": "Schedule of the Day", "Itinerario": "Itinerary", "Ceremonia Religiosa": "Religious Ceremony", "Recepción": "Reception", "Código de Vestimenta": "Dress Code", "Por Confirmar": "To Be Confirmed", "Pronto compartiremos el código de vestimenta.": "We will share the dress code soon.", "Por favor evita vestir de blanco —": "Please avoid wearing white —", "ese color es exclusivo de la novia.": "that color is reserved for the bride.", "Caballeros": "Gentlemen", "Damas": "Ladies", "Celebra con Nosotros": "Celebrate with Us", "Lluvia de Sobres": "Envelope Shower", "Tu Presencia es Nuestro Regalo": "Your Presence Is Our Gift", "El día del evento habrá una urna donde podrás depositar tu sobre con mucho cariño.": "On the day of the event there will be a box where you can lovingly leave your envelope.", "Nosotros": "Us", "Nuestra Historia": "Our Story", "Cada momento, una página de nuestra historia.": "Every moment, a page of our story.", "Desliza para ver más": "Swipe to see more", "Comparte el Momento": "Share the Moment", "Álbum Compartido": "Shared Album", "Ayúdanos a guardar cada momento: sube aquí las fotos que tomes durante el evento.": "Help us keep every moment: upload here the photos you take during the event.", "Escanea para subir tus fotos": "Scan to upload your photos", "Subir mis fotos": "Upload my photos", "El álbum de fotos se habilita el día del evento. Regresa aquí y sube todas tus fotos de la noche ✨": "The photo album opens on the day of the event. Come back and upload all your photos from the night ✨", "Confirma tu Asistencia": "Confirm Your Attendance", "Acompáñanos": "Join Us", "Fecha límite: 1 Dic 2026": "Deadline: Dec 1, 2026", "Tu presencia es muy importante para nosotros.": "Your presence means so much to us.", "Completa tu confirmación y te esperamos con todo el cariño.": "Please complete your confirmation — we look forward to celebrating with you.", "Esta invitación es para": "This invitation is for", "Pases": "Passes", "Los pases son": "Passes are", "personales e intransferibles": "personal and non-transferable", ". El acceso es únicamente para las personas registradas en esta invitación.": ". Entry is only for the people registered on this invitation.", "Confirmar asistencia": "Confirm attendance", "Modificar mi respuesta": "Change my response", "9 · Enero · 2027": "January · 9 · 2027", "Diseño por @elysium.invitaciones": "Design by @elysium.invitaciones"};
+  var lang='es',nodes=null;
+  function collect(){
+    if(nodes)return;nodes=[];
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+      var p=n.parentNode&&n.parentNode.nodeName;return (p==='SCRIPT'||p==='STYLE')?2:1;}});
+    var n;while((n=w.nextNode())){
+      var t=n.nodeValue.trim();
+      if(t&&EN.hasOwnProperty(t))nodes.push({n:n,es:n.nodeValue,en:n.nodeValue.replace(t,EN[t])});
+    }
+  }
+  function decode(h){var d=document.createElement('textarea');d.innerHTML=h;return d.value;}
+  Object.keys(EN).forEach(function(k){EN[k]=decode(EN[k]);});
+  function apply(l){
+    collect();lang=(l==='en')?'en':'es';
+    document.documentElement.lang=lang;
+    nodes.forEach(function(o){o.n.nodeValue=(lang==='en')?o.en:o.es;});
+    document.title=(lang==='en')?'Joel & Brianna · Our Wedding · January 9, 2027':'Joel & Brianna · 9·I·MMXXVII';
+    var t=document.getElementById('langSwitchTxt');if(t)t.textContent=(lang==='en')?'ES':'EN';
+    try{localStorage.setItem('ely_lang',lang);}catch(e){}
+  }
+  return {apply:apply,get:function(){return lang;}};
+})();
+function L(es,en){return (window.ELY_I18N&&window.ELY_I18N.get()==='en')?en:es;}
+(function(){
+  var scr=document.getElementById('langScreen'),sw=document.getElementById('langSwitch');
+  if(!scr)return;
+  function choose(l){
+    window.ELY_I18N.apply(l);
+    scr.classList.add('gone');
+    setTimeout(function(){scr.style.display='none';},750);
+    if(sw)sw.classList.add('show');
+  }
+  scr.querySelectorAll('[data-lang]').forEach(function(b){
+    b.addEventListener('click',function(e){e.stopPropagation();choose(b.getAttribute('data-lang'));});
+  });
+  if(sw)sw.addEventListener('click',function(){window.ELY_I18N.apply(window.ELY_I18N.get()==='en'?'es':'en');});
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" crossorigin="anonymous"></script>
 <script>
@@ -1338,7 +1415,7 @@ function initMain(){
       const bY = document.createElement('button');
       bY.type = 'button';
       bY.className = 'rsvp-mini-btn' + (choice === 'yes' ? ' rsvp-mini-yes-on' : '');
-      bY.textContent = 'Asistiré';
+      bY.textContent = L('Asistiré',"I'll attend");
       bY.disabled = frozen;
       bY.addEventListener('click', function(){
         if(frozen) return;
@@ -1348,7 +1425,7 @@ function initMain(){
       const bN = document.createElement('button');
       bN.type = 'button';
       bN.className = 'rsvp-mini-btn' + (choice === 'no' ? ' rsvp-mini-no-on' : '');
-      bN.textContent = 'No asistiré';
+      bN.textContent = L('No asistiré',"I won't attend");
       bN.disabled = frozen;
       bN.addEventListener('click', function(){
         if(frozen) return;
@@ -1366,13 +1443,13 @@ function initMain(){
   function mostrarGracias(estado, nombres){
     const lista = (nombres || []).filter(function(n){ return n && String(n).trim(); });
     if(estado === 'confirmado'){
-      gTitleEl.textContent = '¡Gracias por confirmar!';
+      gTitleEl.textContent = L('¡Gracias por confirmar!','Thank you for confirming!');
       gSubEl.textContent = lista.length === 1
-        ? 'Te esperamos, ' + lista[0] + '.'
-        : 'Confirmamos ' + lista.length + ' lugares: ' + lista.join(', ') + '.';
+        ? L('Te esperamos, ','We look forward to seeing you, ') + lista[0] + '.'
+        : L('Confirmamos ','We confirmed ') + lista.length + L(' lugares: ',' seats: ') + lista.join(', ') + '.';
     } else {
-      gTitleEl.textContent = 'Gracias por avisarnos';
-      gSubEl.textContent = 'Lamentamos que no puedas acompañarnos. Te vamos a extrañar.';
+      gTitleEl.textContent = L('Gracias por avisarnos','Thank you for letting us know');
+      gSubEl.textContent = L('Lamentamos que no puedas acompañarnos. Te vamos a extrañar.','We are sorry you cannot join us. We will miss you.');
     }
     bandejaEl.style.display = 'none';
     graciasEl.style.display = '';
@@ -1391,9 +1468,9 @@ function initMain(){
   function applyFreeze(){
     if(!frozen) return;
     btnRsvp.disabled = true;
-    btnText.textContent = 'Fecha límite alcanzada';
+    btnText.textContent = L('Fecha límite alcanzada','Deadline passed');
     editarBtn.disabled = true;
-    say('La fecha para confirmar asistencia ha pasado.');
+    say(L('La fecha para confirmar asistencia ha pasado.','The deadline to confirm attendance has passed.'));
   }
 
   if(urlPara){
@@ -1406,12 +1483,12 @@ function initMain(){
           : [];
 
         if(!d){
-          say('No encontramos tu invitación. Pide a los novios que te envíen tu enlace de nuevo.');
+          say(L('No encontramos tu invitación. Pide a los novios que te envíen tu enlace de nuevo.','We could not find your invitation. Please ask the couple to send you your link again.'));
           applyFreeze();
           return;
         }
         if(asignados.length === 0){
-          say('No encontramos lugares asignados a esta invitación. Escríbenos para ayudarte.');
+          say(L('No encontramos lugares asignados a esta invitación. Escríbenos para ayudarte.','We found no seats assigned to this invitation. Please contact us for help.'));
           applyFreeze();
           return;
         }
@@ -1431,7 +1508,7 @@ function initMain(){
               ? 'no'
               : (confLower.indexOf(clave(nm)) >= 0 ? 'yes' : 'no');
           });
-          btnText.textContent = 'Actualizar respuesta';
+          btnText.textContent = L('Actualizar respuesta','Update response');
           renderAsignados();
           /* Ya hay respuesta guardada: la seccion arranca cerrada. */
           mostrarGracias(d.estado, d.nombres_confirmados || []);
@@ -1442,7 +1519,7 @@ function initMain(){
       })
       .catch(function(err){
         console.error('RSVP precarga:', err);
-        say('No pudimos cargar tu invitación. Recarga la página e inténtalo de nuevo.');
+        say(L('No pudimos cargar tu invitación. Recarga la página e inténtalo de nuevo.','We could not load your invitation. Please reload the page and try again.'));
         applyFreeze();
       });
   } else {
@@ -1453,19 +1530,19 @@ function initMain(){
   btnRsvp.addEventListener('click', function(){
     if(frozen || btnRsvp.disabled) return;
     if(!nombresAsignados.length){
-      say('No encontramos lugares asignados a esta invitación.');
+      say(L('No encontramos lugares asignados a esta invitación.','We found no seats assigned to this invitation.'));
       return;
     }
     const faltan = nombresAsignados.filter(function(_, i){ return !personChoices[i]; }).length;
     if(faltan > 0){
-      say('Por favor responde por cada invitado (' + faltan + ' pendiente' + (faltan === 1 ? '' : 's') + ').');
+      say(L('Por favor responde por cada invitado (','Please answer for each guest (') + faltan + L(' pendiente',' pending') + (faltan === 1 ? '' : L('s','')) + ').');
       return;
     }
     const si = nombresAsignados.filter(function(_, i){ return personChoices[i] === 'yes'; });
     const estado = si.length > 0 ? 'confirmado' : 'declino';
 
     btnRsvp.disabled = true;
-    btnText.textContent = 'Enviando…';
+    btnText.textContent = L('Enviando…','Sending…');
     say('');
 
     fetch(PANEL_API, {
@@ -1489,24 +1566,24 @@ function initMain(){
       /* Solo se da por guardado si el panel lo confirma; decir "confirmado"
          sobre un rechazo deja al invitado tranquilo y al cliente sin el dato. */
       if(res.ok && res.d && res.d.ok){
-        btnText.textContent = 'Actualizar respuesta';
+        btnText.textContent = L('Actualizar respuesta','Update response');
         mostrarGracias(estado, si);
         return;
       }
-      btnText.textContent = 'Confirmar asistencia';
+      btnText.textContent = L('Confirmar asistencia','Confirm attendance');
       const err = res.d && res.d.error;
       say(
         err === 'no_match'
-          ? 'No pudimos identificar tu invitación. Abre el enlace personalizado que te enviamos; ese es el único que registra tu confirmación.'
+          ? L('No pudimos identificar tu invitación. Abre el enlace personalizado que te enviamos; ese es el único que registra tu confirmación.','We could not identify your invitation. Open the personal link we sent you; it is the only one that records your confirmation.')
           : err === 'invitacion_borrada'
-            ? 'Esta invitación ya no está activa. Por favor contacta a los novios para que te envíen un enlace nuevo.'
-            : 'Hubo un problema al enviar. Inténtalo de nuevo.',
+            ? L('Esta invitación ya no está activa. Por favor contacta a los novios para que te envíen un enlace nuevo.','This invitation is no longer active. Please contact the couple for a new link.')
+            : L('Hubo un problema al enviar. Inténtalo de nuevo.','There was a problem sending. Please try again.'),
         '#9a4a3a');
     })
     .catch(function(){
       btnRsvp.disabled = false;
-      btnText.textContent = 'Confirmar asistencia';
-      say('Sin conexión. Verifica tu internet e inténtalo de nuevo.', '#9a4a3a');
+      btnText.textContent = L('Confirmar asistencia','Confirm attendance');
+      say(L('Sin conexión. Verifica tu internet e inténtalo de nuevo.','No connection. Check your internet and try again.'), '#9a4a3a');
     });
   });
 })();
